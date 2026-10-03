@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <RootNamespace>ResourcePanel</RootNamespace>
+    <AssemblyName>ResourcePanel.Core</AssemblyName>
+    <Description>Sampling and reversible actions for the panel.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Diagnostics.Tracing.TraceEvent" Version="3.1.21" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <RootNamespace>ResourcePanel</RootNamespace>
+    <AssemblyName>ResourcePanel</AssemblyName>
+    <Version>1.0.0</Version>
+    <Product>ResourcePanel</Product>
+    <Company>ResourcePanel contributors</Company>
+    <Description>A compact panel for live resource use, pausing background apps, and optional Windows cleanup.</Description>
+    <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
+  </PropertyGroup>
+  <ItemGroup>
+    <Using Remove="System.Windows.Forms" />
+    <Using Remove="System.Drawing" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ResourcePanel.Core\ResourcePanel.Core.csproj" />
+  </ItemGroup>
+</Project>

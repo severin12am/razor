@@ -1,0 +1,13 @@
+bin/
+obj/
+dist/
+dist-next/
+dist-see/
+dist-release/
+.vs/
+TestResults/
+*.user
+*.suo
+*.rsuser
+*.tmp
+resourcepanel-selftest.txt
