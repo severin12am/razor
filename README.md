@@ -1,10 +1,8 @@
-# ResourcePanel
+# Razor
 
-ResourcePanel is a local, free, always-on-top Windows panel. It shows what the PC is doing right now, and it lets you pause the background apps that get in the way. Pausing is reversible. There is no account and no telemetry.
+Razor is a local, free, always-on-top Windows panel. It shows what the PC is doing right now, and it lets you pause the background apps that get in the way. Pausing is reversible. There is no account and no telemetry.
 
-**Open it:** download `ResourcePanel.exe` from the latest release and double-click it. Nothing else to install. In the panel menu, **Put a shortcut on the desktop** makes the next open one click. **Top processes** is always the way back to the list of what is using the PC.
-
-The name is a placeholder. Change `AppInfo.ProductName` in `src/ResourcePanel.Core/AppInfo.cs`, and the assembly name in `src/ResourcePanel/ResourcePanel.csproj`, when you pick another one.
+**Open it:** download `Razor.exe` from the latest release and double-click it. Nothing else to install. In the panel menu, **Put a shortcut on the desktop** makes the next open one click. **Top processes** is always the way back to the list of what is using the PC.
 
 ## What you actually click
 
@@ -22,7 +20,7 @@ Optional apps (Xbox, Clipchamp, OEM trials, and so on) are not removed by Free u
 
 ## Screenshot
 
-A narrow dark panel sits on the right side of the desktop. The title bar reads ResourcePanel, with Pin, Top, Dock, minimize, and a menu. Under it, six readings sit in a grid: CPU 18%, Memory 9.2 GB / 16 GB, GPU 4%, Disk down 1.1 MB/s and up 0.2 MB/s, Network down 2.4 MB/s and up 0.1 MB/s, and Battery 64% discharging at 14 W. Two buttons fill the next row: Check PC, and Free up now in green. A line says "3 apps are paused" with Resume all. Below that, a search box, a CPU / Memory / Disk / Network / Name sort menu, and three chips: My apps, Hide Microsoft, Hide idle. The list shows Chrome at 11% and 1.4 GB, with disk and network on the second line, and Pause and End on the right. The selected row opens a details block: full path, command line, parent process, publisher, hosted services, startup entry, remote TCP and UDP endpoints, and two small sparklines for that app's CPU and network over the last minute.
+A narrow dark panel sits on the right side of the desktop. The title bar reads Razor, with Pin, Top, Dock, minimize, and a menu. Under it, six readings sit in a grid: CPU 18%, Memory 9.2 GB / 16 GB, GPU 4%, Disk down 1.1 MB/s and up 0.2 MB/s, Network down 2.4 MB/s and up 0.1 MB/s, and Battery 64% discharging at 14 W. Two buttons fill the next row: Check PC, and Free up now in green. A line says "3 apps are paused" with Resume all. Below that, a search box, a CPU / Memory / Disk / Network / Name sort menu, and three chips: My apps, Hide Microsoft, Hide idle. The list shows Chrome at 11% and 1.4 GB, with disk and network on the second line, and Pause and End on the right. The selected row opens a details block: full path, command line, parent process, publisher, hosted services, startup entry, remote TCP and UDP endpoints, and two small sparklines for that app's CPU and network over the last minute.
 
 Pin locks the panel where you put it. Top keeps it above other windows. Dock cycles between floating, the right edge, and the left edge. The edge dock reserves a strip like a bar, so maximized windows do not cover it. Minimize, and the close button, hide the panel to the notification area. Exit is in the ··· menu and in the tray icon.
 
@@ -47,13 +45,13 @@ If `dotnet --list-sdks` is empty but the SDK was installed for your user, call i
 .\build.ps1
 ```
 
-The exe is `dist\ResourcePanel.exe`. It includes the runtime, so the PC you copy it to does not need .NET installed.
+The exe is `dist\Razor.exe`. It includes the runtime, so the PC you copy it to does not need .NET installed.
 
 Open `ResourcePanel.sln` in Visual Studio 2022 and press F5 to debug. The project targets 64-bit Windows.
 
 ## Install
 
-You can run `dist\ResourcePanel.exe` with no install.
+You can run `dist\Razor.exe` with no install.
 
 Optional per-user install (Start menu shortcut, no administrator):
 
@@ -62,7 +60,7 @@ Optional per-user install (Start menu shortcut, no administrator):
 .\installer\install.ps1 -StartWithWindows -DesktopShortcut
 ```
 
-`installer\ResourcePanel.iss` is an [Inno Setup 6](https://jrsoftware.org/isinfo.php) script for a setup exe. It installs under your local AppData folder and does not ask for administrator. Build the portable exe first so `dist\ResourcePanel.exe` exists, then compile the script.
+`installer\ResourcePanel.iss` is an [Inno Setup 6](https://jrsoftware.org/isinfo.php) script for a setup exe. It installs under your local AppData folder and does not ask for administrator. Build the portable exe first so `dist\Razor.exe` exists, then compile the script.
 
 The panel menu has **Start with Windows**. That writes one value under `HKCU\Software\Microsoft\Windows\CurrentVersion\Run`.
 
@@ -82,10 +80,10 @@ The app starts as a normal user. It does not request administrator at launch.
 
 Logs and settings stay on the PC:
 
-- `%LocalAppData%\ResourcePanel\actions.json` records every end, pause, service change, startup change, and app removal.
-- `%LocalAppData%\ResourcePanel\profile.json` is the undo list.
-- `%LocalAppData%\ResourcePanel\settings.json` is the window and filters.
-- `%LocalAppData%\ResourcePanel\startup-backup\` holds Startup-folder files that were moved aside.
+- `%LocalAppData%\Razor\actions.json` records every end, pause, service change, startup change, and app removal.
+- `%LocalAppData%\Razor\profile.json` is the undo list.
+- `%LocalAppData%\Razor\settings.json` is the window and filters.
+- `%LocalAppData%\Razor\startup-backup\` holds Startup-folder files that were moved aside.
 
 ## Where the numbers come from
 

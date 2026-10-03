@@ -69,7 +69,7 @@ public class ScanPlannerTests
             Fact(200, "OneDrive", 0.4, 80_000_000),
             Fact(201, "chrome", 22, 900_000_000),
             Fact(202, "notepad", 0.01, 10_000_000),
-            Fact(8, "ResourcePanel", 0.2, 40_000_000)
+            Fact(8, "Razor", 0.2, 40_000_000)
         }, [], sessionId: 1, selfPid: 8, foregroundPid: null);
 
         var titles = report.PauseCandidates.Select(item => item.Title).ToList();
@@ -80,7 +80,7 @@ public class ScanPlannerTests
         Assert.DoesNotContain("MsMpEng", titles);
         Assert.DoesNotContain("explorer", titles);
         Assert.DoesNotContain("notepad", titles);
-        Assert.DoesNotContain("ResourcePanel", titles);
+        Assert.DoesNotContain("Razor", titles);
         Assert.True(report.PauseCandidates.Single(item => item.Title == "OneDrive").CheckedByDefault);
         Assert.False(report.PauseCandidates.Single(item => item.Title == "chrome").CheckedByDefault);
         var game = ScanPlanner.Build(new[] { Fact(300, "MyGame", 40, 2_000_000_000) }, [], 1, 1, null);

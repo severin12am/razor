@@ -6,10 +6,10 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <RootNamespace>ResourcePanel</RootNamespace>
-    <AssemblyName>ResourcePanel</AssemblyName>
+    <AssemblyName>Razor</AssemblyName>
     <Version>1.0.0</Version>
-    <Product>ResourcePanel</Product>
-    <Company>ResourcePanel contributors</Company>
+    <Product>Razor</Product>
+    <Company>Razor</Company>
     <Description>A compact panel for live resource use, pausing background apps, and optional Windows cleanup.</Description>
     <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
   </PropertyGroup>

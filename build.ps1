@@ -14,7 +14,7 @@ try {
         -p:DebugType=none `
         -o "$root\dist"
     if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-    Write-Host "Portable exe: $root\dist\ResourcePanel.exe"
+    Write-Host "Portable exe: $root\dist\Razor.exe"
 }
 finally {
     Pop-Location
