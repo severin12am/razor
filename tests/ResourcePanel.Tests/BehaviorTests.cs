@@ -168,16 +168,13 @@ public class DebloatTests
         Assert.Equal(safe, Tokens.IsSafeToken(value));
 
     [Fact]
-    public void Speed_steps_explain_themselves_and_skip_security()
+    public void Speed_steps_explain_themselves_and_warn_before_security()
     {
         var steps = SpeedSteps.Detect();
-        Assert.Contains(steps, step => step.Id == "window-animations");
-        Assert.All(steps, step =>
-        {
-            Assert.False(string.IsNullOrWhiteSpace(step.Detail));
-            Assert.DoesNotContain("Defender", step.Title);
-            Assert.DoesNotContain("Windows Update", step.Title);
-        });
+        Assert.Contains(steps, step => step.Id == "window-animations" && step.Warning == "");
+        Assert.Contains(steps, step => step.Id == "defender" && step.Warning.Contains("malware"));
+        Assert.Contains(steps, step => step.Id == "windows-update" && step.Warning.Contains("security fixes"));
+        Assert.All(steps, step => Assert.False(string.IsNullOrWhiteSpace(step.Detail)));
     }
 
     [Fact]

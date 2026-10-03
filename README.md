@@ -13,7 +13,7 @@ The panel is meant for the case where a laptop is loud, hot, or stuttering in a 
 1. **Check PC** looks through what is running, what starts with Windows, and which optional apps are installed. It changes nothing.
 2. **Free up now** pauses non-critical background apps after showing you the list. Uncheck anything you still want. Windows, security software, and the window in front are not on the safe list. **Resume all** puts the paused apps back, and also puts the power plan and Game Mode back if those were changed.
 3. The process list is the manual path. **Pause** shows what it is doing, then the app stays paused until you resume it. **End** asks first.
-4. **Speed up** is a list of ordinary Windows tweaks (window animations, transparency, Game DVR, startup delay, and similar). Each one explains itself. **Do this** applies only that step. **Undo** puts it back.
+4. **Speed up** is a list of Windows tweaks. Each one explains itself. **Do this** applies only that step. **Undo** puts it back. Security, Windows Update, search indexing, and similar steps are in the same list with a red warning and a confirm.
 5. **Top processes** brings you back to the live list from any other page.
 
 Free up now can also switch to the High performance power plan and turn on Windows Game Mode. Those two are how Windows itself asks a laptop to favor a game. They are checkboxes, and Resume all undoes them.

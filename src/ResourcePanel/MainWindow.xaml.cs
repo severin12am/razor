@@ -545,8 +545,9 @@ public partial class MainWindow : Window
     {
         if (sender is not FrameworkElement { DataContext: SpeedStepRow row })
             return;
-        var yes = row.Optimized ? "Undo" : "Do this";
-        if (!ConfirmWindow.Show(this, row.Title, row.Detail, null, yes))
+        var yes = row.Optimized ? "Undo" : (row.HasWarning ? "I understand, do this" : "Do this");
+        var message = row.HasWarning && !row.Optimized ? row.Warning + "\n\n" + row.Detail : row.Detail;
+        if (!ConfirmWindow.Show(this, row.HasWarning && !row.Optimized ? "Warning" : row.Title, message, null, yes))
             return;
         await _vm.ApplySpeedAsync(row);
     }

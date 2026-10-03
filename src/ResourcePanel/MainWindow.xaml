@@ -305,7 +305,7 @@
           <Button Content="Top processes" Style="{StaticResource PrimaryButton}" Margin="0,0,0,8" Click="Back_Click"/>
           <TextBlock Text="Speed up" FontSize="16" FontWeight="SemiBold"/>
           <TextBlock TextWrapping="Wrap" Margin="0,6,0,8" Foreground="#C5CAD6"
-                     Text="Each step says what it changes. Do this applies only that step. Undo puts it back. These do not close apps, and they do not turn off security or Windows Update."/>
+                     Text="Each step says what it changes. Do this applies only that step. Undo puts it back. Steps with a red warning can turn off security, updates, or other Windows pieces. Nothing runs until you confirm."/>
           <ItemsControl ItemsSource="{Binding SpeedItems}">
             <ItemsControl.ItemTemplate>
               <DataTemplate DataType="local:SpeedStepRow">
@@ -315,7 +315,9 @@
                       <TextBlock DockPanel.Dock="Right" Text="{Binding Status}" Foreground="#6FDBA2" Margin="8,0,0,0"/>
                       <TextBlock Text="{Binding Title}" FontWeight="SemiBold" TextWrapping="Wrap"/>
                     </DockPanel>
-                    <TextBlock Text="{Binding Detail}" TextWrapping="Wrap" Foreground="#C5CAD6" Margin="0,4,0,8"/>
+                    <TextBlock Text="{Binding Detail}" TextWrapping="Wrap" Foreground="#C5CAD6" Margin="0,4,0,4"/>
+                    <TextBlock Text="{Binding Warning}" TextWrapping="Wrap" Foreground="#F07178" FontWeight="SemiBold" Margin="0,0,0,8"
+                               Visibility="{Binding HasWarning, Converter={StaticResource BoolVis}}"/>
                     <Button Content="{Binding ActionLabel}" Style="{StaticResource SecondaryButton}" Height="30" HorizontalAlignment="Left" MinWidth="90" Click="SpeedStep_Click"/>
                   </StackPanel>
                 </Border>

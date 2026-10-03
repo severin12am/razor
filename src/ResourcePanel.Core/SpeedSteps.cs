@@ -8,6 +8,7 @@ public sealed class SpeedStep
     public required string Id { get; init; }
     public required string Title { get; init; }
     public required string Detail { get; init; }
+    public string Warning { get; init; } = "";
     public bool Optimized { get; init; }
 }
 
@@ -21,6 +22,7 @@ public static class SpeedSteps
             Id = step.Id,
             Title = step.Title,
             Detail = step.Detail,
+            Warning = step.Warning,
             Optimized = SafeRead(step.IsOptimized)
         }).ToList();
 
@@ -55,6 +57,7 @@ public static class SpeedSteps
         public required string Id { get; init; }
         public required string Title { get; init; }
         public required string Detail { get; init; }
+        public string Warning { get; init; } = "";
         public required Func<bool> IsOptimized { get; init; }
         public required Func<ChangeResult> Apply { get; init; }
         public required Func<ChangeResult> Undo { get; init; }
@@ -198,8 +201,51 @@ public static class SpeedSteps
                 GameModeSetting.SetEnabled(false);
                 return new ChangeResult(true, "Game Mode is off.");
             }
-        }
+        },
+        Warn("defender", "Turn off Microsoft Defender real-time protection",
+            "Sets the Windows Defender service to Disabled. Real-time scanning stops until you undo this.",
+            "Your PC will not be checked for malware while this is off. Only do this if you accept that risk.",
+            "WinDefend", "Disabled", "Automatic"),
+        Warn("firewall", "Turn off Windows Firewall",
+            "Sets the firewall service to Disabled. Network filtering stops until you undo this.",
+            "Other computers and the network can reach this PC more easily while the firewall is off.",
+            "mpssvc", "Disabled", "Automatic"),
+        Warn("windows-update", "Turn off Windows Update",
+            "Sets the Windows Update service to Disabled. Update checks stop until you undo this.",
+            "The PC will stop receiving security fixes. Windows may turn updating back on by itself.",
+            "wuauserv", "Disabled", "Manual"),
+        Warn("update-orchestrator", "Turn off the Update Orchestrator",
+            "Sets UsoSvc to Disabled so fewer update jobs start in the background.",
+            "This is part of Windows Update. Security fixes may not download.",
+            "UsoSvc", "Disabled", "Automatic"),
+        Warn("sysmain", "Turn off SysMain (Superfetch)",
+            "Stops the service that preloads apps into memory. Games on a slow disk hitch less. Everyday apps may open slower.",
+            "Some apps will take longer to open after you turn this off.",
+            "SysMain", "Disabled", "Automatic"),
+        Warn("search-index", "Turn off Windows Search indexing",
+            "Stops the file index. The disk gets quieter. Searching inside File Explorer gets slower until you undo this.",
+            "Finding files in Explorer will take longer.",
+            "WSearch", "Disabled", "Automatic"),
+        Warn("telemetry", "Turn off diagnostic telemetry",
+            "Sets Connected User Experiences and Telemetry (DiagTrack) to Disabled. Windows still runs.",
+            "Some feedback and diagnostic features stop working.",
+            "DiagTrack", "Disabled", "Automatic"),
+        Warn("delivery", "Turn off Delivery Optimization",
+            "Stops the service that uploads and downloads Windows updates from other PCs on your network.",
+            "Updates, if you still allow them, only come from Microsoft.",
+            "DoSvc", "Disabled", "Automatic")
     ];
+
+    static StepDef Warn(string id, string title, string detail, string warning, string service, string applied, string undoStart) => new()
+    {
+        Id = id,
+        Title = title,
+        Detail = detail,
+        Warning = warning,
+        IsOptimized = () => string.Equals(ServiceControl.GetStartType(service), applied, StringComparison.OrdinalIgnoreCase),
+        Apply = () => SetService(service, applied, detail),
+        Undo = () => SetService(service, undoStart, "Restored " + service + " to " + undoStart + ".")
+    };
 
     [StructLayout(LayoutKind.Sequential)]
     struct AnimationInfo
@@ -216,6 +262,26 @@ public static class SpeedSteps
 
     [DllImport("user32.dll", SetLastError = true)]
     static extern bool SystemParametersInfo(uint action, uint param, IntPtr value, uint winIni);
+
+    static ChangeResult SetService(string service, string start, string success)
+    {
+        var result = ServiceControl.SetStartType(service, start, out var previous);
+        if (!result.Success)
+            return new ChangeResult(false, result.Message + " Restart as admin from the menu if Windows refused.");
+        if (previous != null && !string.Equals(previous, start, StringComparison.OrdinalIgnoreCase))
+        {
+            ProfileStore.Add(new ProfileChange
+            {
+                Kind = "service",
+                Id = service,
+                Previous = previous,
+                Applied = start,
+                Reversible = true,
+                Note = service
+            });
+        }
+        return new ChangeResult(true, success);
+    }
 
     static int ReadAnimation()
     {

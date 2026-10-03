@@ -159,6 +159,9 @@ public sealed class SpeedStepRow : ObservableObject
     public string Detail { get; private set; } = "";
     public string Status { get => _status; private set => Set(ref _status, value); }
     public string ActionLabel { get => _action; private set => Set(ref _action, value); }
+    string _warning = "";
+    public string Warning { get => _warning; private set => Set(ref _warning, value); }
+    public bool HasWarning => _warning.Length > 0;
     public bool Optimized { get => _optimized; private set => Set(ref _optimized, value); }
 
     public void Refresh(SpeedStep step)
@@ -166,6 +169,8 @@ public sealed class SpeedStepRow : ObservableObject
         Id = step.Id;
         Title = step.Title;
         Detail = step.Detail;
+        Warning = step.Warning;
+        Raise(nameof(HasWarning));
         Optimized = step.Optimized;
         Status = step.Optimized ? "On" : "Not applied";
         ActionLabel = step.Optimized ? "Undo" : "Do this";
