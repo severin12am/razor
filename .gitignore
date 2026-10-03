@@ -6,6 +6,7 @@ dist-see/
 dist-release/
 dist-razor/
 dist-warn/
+dist-fix/
 .vs/
 TestResults/
 *.user

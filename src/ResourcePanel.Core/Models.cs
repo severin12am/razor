@@ -167,8 +167,8 @@ public sealed class ActionLogFile
 
 public sealed class AppSettings
 {
-    public double Left { get; set; } = double.NaN;
-    public double Top { get; set; } = double.NaN;
+    public double? Left { get; set; }
+    public double? Top { get; set; }
     public double Width { get; set; } = 380;
     public double Height { get; set; } = 760;
     public bool Topmost { get; set; } = true;

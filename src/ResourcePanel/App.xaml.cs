@@ -25,7 +25,9 @@ public partial class App : Application
             {
                 // The crash log is best-effort.
             }
-            args.Handled = false;
+            args.Handled = true;
+            if (Current?.MainWindow is MainWindow window)
+                window.ShowProblem(args.Exception.Message);
         };
 
         if (e.Args.Any(arg => arg == "--self-test"))

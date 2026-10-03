@@ -302,6 +302,12 @@ public sealed class MainViewModel : ObservableObject
         Raise(nameof(ShowCoach));
     }
 
+    public void ReportProblem(string message)
+    {
+        IsBusy = false;
+        Status = message;
+    }
+
     public void DismissCoach()
     {
         Settings.CoachDismissed = true;

@@ -61,6 +61,7 @@ public partial class MainWindow : Window
         viewSource.Filter += (_, args) => args.Accepted = args.Item is ProcessRow row && _vm.Accepts(row);
         _view = viewSource.View as ListCollectionView;
         ApplySort();
+        SortButton.Content = "Sort: " + _vm.Sort;
         StartWithWindowsItem.IsChecked = LoginStartup.IsEnabled();
         _monitor.Updated += sample =>
         {
@@ -101,10 +102,10 @@ public partial class MainWindow : Window
         _pinned = settings.Pinned;
         UpdatePinVisual();
         _dock = settings.Dock;
-        if (!double.IsNaN(settings.Left) && !double.IsNaN(settings.Top))
+        if (settings.Left is double left && settings.Top is double top && !double.IsNaN(left) && !double.IsNaN(top))
         {
-            Left = settings.Left;
-            Top = settings.Top;
+            Left = left;
+            Top = top;
         }
         else
         {
@@ -219,20 +220,27 @@ public partial class MainWindow : Window
 
     void Compact_Click(object sender, RoutedEventArgs e)
     {
-        if (_vm.IsCompact)
+        try
         {
-            _vm.SetCompact(false);
-            ApplyCompactChrome(entering: false);
+            if (_vm.IsCompact)
+            {
+                _vm.SetCompact(false);
+                ApplyCompactChrome(entering: false);
+            }
+            else
+            {
+                _fullWidth = Width;
+                _fullHeight = Height;
+                _vm.SetCompact(true);
+                ApplyCompactChrome(entering: true);
+            }
+            UpdateCompactVisual();
+            SaveSettings();
         }
-        else
+        catch (Exception ex)
         {
-            _fullWidth = Width;
-            _fullHeight = Height;
-            _vm.SetCompact(true);
-            ApplyCompactChrome(entering: true);
+            ShowProblem(ex.Message);
         }
-        UpdateCompactVisual();
-        SaveSettings();
     }
 
     void ApplyCompactChrome(bool entering)
@@ -431,9 +439,16 @@ public partial class MainWindow : Window
 
     async void Check_Click(object sender, RoutedEventArgs e)
     {
-        LeaveCompactForReading();
-        _vm.DismissCoach();
-        await _vm.RunCheckAsync();
+        try
+        {
+            LeaveCompactForReading();
+            _vm.DismissCoach();
+            await _vm.RunCheckAsync();
+        }
+        catch (Exception ex)
+        {
+            ShowProblem(ex.Message);
+        }
     }
 
     void LeaveCompactForReading()
@@ -464,7 +479,25 @@ public partial class MainWindow : Window
     void Search_Changed(object sender, TextChangedEventArgs e) =>
         Dispatcher.BeginInvoke(new Action(() => _view?.Refresh()));
 
-    void Sort_Changed(object sender, SelectionChangedEventArgs e) => ApplySort();
+    void SortMenu_Click(object sender, RoutedEventArgs e)
+    {
+        SortButton.ContextMenu.PlacementTarget = SortButton;
+        SortButton.ContextMenu.IsOpen = true;
+    }
+
+    void SortPick_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not System.Windows.Controls.MenuItem { Tag: string sort })
+            return;
+        _vm.Sort = sort;
+        SortButton.Content = "Sort: " + sort;
+        ApplySort();
+    }
+
+    public void ShowProblem(string message)
+    {
+        _vm.ReportProblem(message);
+    }
 
     void ApplySort()
     {

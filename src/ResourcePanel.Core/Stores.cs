@@ -64,8 +64,31 @@ public static class SettingsStore
 
     public static void Save(AppSettings settings)
     {
-        lock (Gate)
-            JsonFiles.WriteAtomic(AppPaths.SettingsFile, settings);
+        try
+        {
+            if (settings.Left is double left && !double.IsFinite(left))
+                settings.Left = null;
+            if (settings.Top is double top && !double.IsFinite(top))
+                settings.Top = null;
+            if (!double.IsFinite(settings.Width) || settings.Width < 200)
+                settings.Width = 380;
+            if (!double.IsFinite(settings.Height) || settings.Height < 200)
+                settings.Height = 760;
+            lock (Gate)
+                JsonFiles.WriteAtomic(AppPaths.SettingsFile, settings);
+        }
+        catch (Exception ex)
+        {
+            try
+            {
+                AppPaths.Ensure();
+                File.WriteAllText(Path.Combine(AppPaths.Root, "save-error.txt"), ex.ToString());
+            }
+            catch
+            {
+                // A failed settings save must not close the app.
+            }
+        }
     }
 }
 

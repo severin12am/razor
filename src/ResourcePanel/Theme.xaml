@@ -142,6 +142,29 @@
     <Setter Property="Margin" Value="0,4"/>
   </Style>
 
+  <Style TargetType="ComboBox">
+    <Setter Property="Background" Value="#1C1F27"/>
+    <Setter Property="Foreground" Value="#E8EAF0"/>
+    <Setter Property="BorderBrush" Value="#3A4150"/>
+    <Setter Property="Padding" Value="8,4"/>
+  </Style>
+
+  <Style TargetType="ComboBoxItem">
+    <Setter Property="Background" Value="#1C1F27"/>
+    <Setter Property="Foreground" Value="#E8EAF0"/>
+    <Setter Property="Padding" Value="10,6"/>
+    <Style.Triggers>
+      <Trigger Property="IsHighlighted" Value="True">
+        <Setter Property="Background" Value="#2E6B4A"/>
+        <Setter Property="Foreground" Value="#E8EAF0"/>
+      </Trigger>
+      <Trigger Property="IsSelected" Value="True">
+        <Setter Property="Background" Value="#243044"/>
+        <Setter Property="Foreground" Value="#E8EAF0"/>
+      </Trigger>
+    </Style.Triggers>
+  </Style>
+
   <Style TargetType="ScrollViewer">
     <Setter Property="Background" Value="Transparent"/>
   </Style>

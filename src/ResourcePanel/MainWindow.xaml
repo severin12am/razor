@@ -214,7 +214,18 @@
           <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0" Margin="0,0,0,6">
-          <ComboBox x:Name="SortBox" DockPanel.Dock="Right" Width="96" ItemsSource="{Binding SortNames}" SelectedItem="{Binding Sort, Mode=TwoWay}" SelectionChanged="Sort_Changed"/>
+          <Button x:Name="SortButton" DockPanel.Dock="Right" Content="Sort: CPU" Width="110" Height="30" Margin="6,0,0,0"
+                  Style="{StaticResource SecondaryButton}" Click="SortMenu_Click" ToolTip="Choose how the list is ordered">
+            <Button.ContextMenu>
+              <ContextMenu>
+                <MenuItem Header="CPU" Tag="CPU" Click="SortPick_Click"/>
+                <MenuItem Header="Memory" Tag="Memory" Click="SortPick_Click"/>
+                <MenuItem Header="Disk" Tag="Disk" Click="SortPick_Click"/>
+                <MenuItem Header="Network" Tag="Network" Click="SortPick_Click"/>
+                <MenuItem Header="Name" Tag="Name" Click="SortPick_Click"/>
+              </ContextMenu>
+            </Button.ContextMenu>
+          </Button>
           <TextBox x:Name="SearchBox" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" TextChanged="Search_Changed" Padding="8,5" Background="#1C1F27" Foreground="{StaticResource Brush.Text}" BorderBrush="{StaticResource Brush.Line}" CaretBrush="{StaticResource Brush.Text}"/>
         </DockPanel>
         <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,6">
