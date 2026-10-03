@@ -4,6 +4,8 @@ dist/
 dist-next/
 dist-see/
 dist-release/
+dist-razor/
+dist-warn/
 .vs/
 TestResults/
 *.user
